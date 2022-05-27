@@ -43,7 +43,25 @@ const pun = ({pun, punchline}: puns.Pun) => `
 const api = new Router();
 
 api.add('GET', '/', (req, res) => {
+  return Response.redirect('https://github.com/ztcollazo/joke.svg', 301);
+});
+
+api.add('GET', '/random', (req, res) => {
   const svg = pun(puns.random());
+  res.setHeader('Content-Type', 'image/svg+xml');
+  res.end(svg);
+});
+
+api.add('GET', '/get', (req, res) => {
+  const svg = pun(puns.get(Number(req.query.get('id'))));
+  res.setHeader('Content-Type', 'image/svg+xml');
+  res.end(svg);
+});
+
+api.add('GET', '/search', (req, res) => {
+  const svg = pun(puns.search(
+      req.query.get('q')?.split(' ')!,
+  )[Number(req.query.get('i') ?? 0)]);
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
