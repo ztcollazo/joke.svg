@@ -1,8 +1,9 @@
 import {Router} from 'worktop';
 import {listen} from 'worktop/cache';
 import puns from 'puns.dev';
+import theme, {Theme} from './utils/theme';
 
-const pun = ({pun, punchline}: puns.Pun) => `
+const pun = ({pun, punchline}: puns.Pun, theme: Theme) => `
 <svg fill="none" viewBox="0 0 800 200" width="800" height="200" xmlns="http://www.w3.org/2000/svg">
   <foreignObject width="100%" height="100%">
     <style>
@@ -18,9 +19,9 @@ const pun = ({pun, punchline}: puns.Pun) => `
         box-sizing: border-box;
         padding: 0;
         border-radius: 10px;
-        border: 3px solid lightblue;
-        background-color: #454545;
-        color: lightblue;
+        border: 3px solid ${theme.borderColor};
+        background-color: ${theme.backgroundColor};
+        color: ${theme.color};
         width: 100%;
         display: flex;
         align-items: center;
@@ -47,21 +48,27 @@ api.add('GET', '/', (req, res) => {
 });
 
 api.add('GET', '/random', (req, res) => {
-  const svg = pun(puns.random());
+  const svg = pun(puns.random(), theme(req.query.get('theme') ?? 'default'));
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
 
 api.add('GET', '/get', (req, res) => {
-  const svg = pun(puns.get(Number(req.query.get('id'))));
+  const svg = pun(
+      puns.get(Number(req.query.get('id'))),
+      theme(req.query.get('theme') ?? 'default'),
+  );
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
 
 api.add('GET', '/search', (req, res) => {
-  const svg = pun(puns.search(
-      req.query.get('q')?.split(' ')!,
-  )[Number(req.query.get('i') ?? 0)]);
+  const svg = pun(
+      puns.search(
+        req.query.get('q')?.split(' ')!,
+      )[Number(req.query.get('i') ?? 0)],
+      theme(req.query.get('theme') ?? 'default'),
+  );
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
