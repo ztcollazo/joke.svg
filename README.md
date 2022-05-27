@@ -1,5 +1,7 @@
 # joke.svg
 
+![Random joke](https://jokesvg.ztco.workers.dev/random)
+
 Welcome to Joke.SVG! Joke.SVG is an api wrapper for [puns.dev](https://puns.dev) that returns a programming joke as an SVG image. It's really good for [Readmes](https://github.com/ztcollazo).
 
 Features:
@@ -50,12 +52,12 @@ Returns the joke at the given ID.
 
 ### Default
 
-![The Default Theme](./assets/default.png)
+![The Default Theme](https://jokesvg.ztco.workers.dev/random?theme=default)
 
 ### Nord
 
-![The Nord Theme](./assets/nord.png)
+![The Nord Theme](https://jokesvg.ztco.workers.dev/random?theme=nord)
 
 ### Dark
 
-![The Dark Theme](./assets/dark.png)
+![The Dark Theme](https://jokesvg.ztco.workers.dev/random?theme=dark)
