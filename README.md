@@ -41,7 +41,7 @@ Returns the joke at the given ID.
 | ----- | -------- | ------------------ |
 | `id`  | False    | The ID of the joke |
 
-#### `/search?q={term}&i={index}
+#### `/search?q={term}&i={index}`
 
 | Param | Optional | Description              |
 | ----- | -------- | ------------------------ |
