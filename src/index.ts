@@ -2,6 +2,7 @@ import {Router} from 'worktop';
 import {listen} from 'worktop/cache';
 import puns from 'puns.dev';
 import theme, {Theme} from './utils/theme';
+import {ServerRequest} from 'worktop/request';
 
 const pun = ({pun, punchline}: puns.Pun, theme: Theme) => `
 <svg fill="none" viewBox="0 0 800 200" width="800" height="200" xmlns="http://www.w3.org/2000/svg">
@@ -41,6 +42,16 @@ const pun = ({pun, punchline}: puns.Pun, theme: Theme) => `
   </foreignObject>
 </svg>`;
 
+const createTheme = (req: ServerRequest<{}>): Theme => {
+  const inititalTheme = theme(req.query.get('theme') ?? 'default');
+  return {
+    ...inititalTheme,
+    backgroundColor: req.query.get('bg') ?? inititalTheme.backgroundColor,
+    borderColor: req.query.get('border') ?? inititalTheme.borderColor,
+    color: req.query.get('color') ?? inititalTheme.color,
+  };
+};
+
 const api = new Router();
 
 api.add('GET', '/', (req, res) => {
@@ -48,16 +59,13 @@ api.add('GET', '/', (req, res) => {
 });
 
 api.add('GET', '/random', (req, res) => {
-  const svg = pun(puns.random(), theme(req.query.get('theme') ?? 'default'));
+  const svg = pun(puns.random(), createTheme(req));
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
 
 api.add('GET', '/get', (req, res) => {
-  const svg = pun(
-      puns.get(Number(req.query.get('id'))),
-      theme(req.query.get('theme') ?? 'default'),
-  );
+  const svg = pun(puns.get(Number(req.query.get('id'))), createTheme(req));
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);
 });
@@ -67,7 +75,7 @@ api.add('GET', '/search', (req, res) => {
       puns.search(
         req.query.get('q')?.split(' ')!,
       )[Number(req.query.get('i') ?? 0)],
-      theme(req.query.get('theme') ?? 'default'),
+      createTheme(req),
   );
   res.setHeader('Content-Type', 'image/svg+xml');
   res.end(svg);

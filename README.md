@@ -17,9 +17,12 @@ The root URL is <https://jokesvg.ztco.workers.dev>
 
 ### Common params
 
-| Param    | Optional | Description        |
-| -------- | -------- | ------------------ |
-| `theme`  | True     | Which theme to use |
+| Param    | Optional | Description                           |
+| -------- | -------- | ------------------------------------- |
+| `theme`  | True     | Which theme to use                    |
+| `bg`     | True     | Override the theme's background color |
+| `border` | True     | Override the theme's border color     |
+| `color`  | True     | Override the theme's text color       |
 
 ### Paths
 
